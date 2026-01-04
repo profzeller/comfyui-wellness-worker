@@ -1,0 +1,89 @@
+{
+  "1": {
+    "inputs": {
+      "image": "{$source_image_base64}"
+    },
+    "class_type": "LoadImageBase64",
+    "_meta": { "title": "Load Source Image" }
+  },
+  "2": {
+    "inputs": {
+      "width": "{$width}",
+      "height": "{$height}",
+      "interpolation": "lanczos",
+      "keep_proportion": true,
+      "condition": "always",
+      "multiple_of": 8,
+      "image": ["1", 0]
+    },
+    "class_type": "ImageResize+",
+    "_meta": { "title": "Resize Image" }
+  },
+  "3": {
+    "inputs": {
+      "seed": "{$seed}",
+      "steps": 30,
+      "cfg": "{$cfg_scale}",
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.85,
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["5", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": { "title": "KSampler" }
+  },
+  "4": {
+    "inputs": {
+      "ckpt_name": "wan2.2_i2v_14B_bf16.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": { "title": "Load Wan2.2 I2V Checkpoint" }
+  },
+  "5": {
+    "inputs": {
+      "pixels": ["2", 0],
+      "length": "{$num_frames}",
+      "vae": ["4", 2]
+    },
+    "class_type": "WanImageToLatentVideo",
+    "_meta": { "title": "Image to Latent Video" }
+  },
+  "6": {
+    "inputs": {
+      "text": "{$prompt}",
+      "clip": ["4", 1]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Positive Prompt" }
+  },
+  "7": {
+    "inputs": {
+      "text": "{$negative_prompt}",
+      "clip": ["4", 1]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Negative Prompt" }
+  },
+  "8": {
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    },
+    "class_type": "VAEDecode",
+    "_meta": { "title": "VAE Decode" }
+  },
+  "9": {
+    "inputs": {
+      "frame_rate": "{$fps}",
+      "loop_count": 0,
+      "filename_prefix": "wan_i2v",
+      "format": "video/mp4",
+      "images": ["8", 0]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": { "title": "Video Combine" }
+  }
+}
