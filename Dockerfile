@@ -50,7 +50,7 @@ RUN cd custom_nodes && \
 # Install Wan2.2 nodes
 RUN cd custom_nodes && \
     git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
-    pip install --no-cache-dir -r ComfyUI-WanVideoWrapper/requirements.txt || true
+    pip install --no-cache-dir -r ComfyUI-WanVideoWrapper/requirements.txt
 
 # Install FLUX nodes (already included in base ComfyUI)
 # Additional FLUX support

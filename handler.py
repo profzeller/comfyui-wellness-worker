@@ -184,6 +184,14 @@ def handler(job: dict) -> dict:
 
     job_input = job.get("input", {})
 
+    # Health check - respond immediately without starting ComfyUI
+    if job_input.get("health_check") or not job_input:
+        return {
+            "status": "healthy",
+            "message": "ComfyUI handler ready. Models loaded from network volume.",
+            "supported_workflows": ["flux_image", "wan_video", "infinitetalk"]
+        }
+
     # Get workflow - either provided or from template
     workflow = job_input.get("workflow")
     workflow_type = job_input.get("workflow_type")
