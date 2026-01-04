@@ -1,6 +1,6 @@
 # ComfyUI Wellness Worker
 
-[![RunPod](https://api.runpod.io/badge/profzeller/comfyui-wellness-worker)](https://runpod.io/console/hub/profzeller/comfyui-wellness-worker)
+[![RunPod](https://api.runpod.io/badge/profzeller/comfyui-wellness-worker)](https://console.runpod.io/hub/profzeller/comfyui-wellness-worker)
 
 RunPod Serverless worker for ComfyUI-based generation.
 
