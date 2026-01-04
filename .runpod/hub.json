@@ -1,0 +1,55 @@
+{
+  "title": "ComfyUI Wellness Worker",
+  "description": "ComfyUI-based worker for FLUX image generation and Wan2.2 video generation for wellness content",
+  "type": "serverless",
+  "category": "video",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 50,
+    "presets": [
+      {
+        "name": "Full Setup (FLUX + Wan2.2)",
+        "defaults": {
+          "DOWNLOAD_FLUX": "true",
+          "DOWNLOAD_WAN": "true"
+        }
+      },
+      {
+        "name": "Images Only (FLUX)",
+        "defaults": {
+          "DOWNLOAD_FLUX": "true",
+          "DOWNLOAD_WAN": "false"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "DOWNLOAD_FLUX",
+        "input": {
+          "name": "Download FLUX Models",
+          "type": "string",
+          "description": "Set to 'true' to download FLUX image generation models",
+          "default": "true"
+        }
+      },
+      {
+        "key": "DOWNLOAD_WAN",
+        "input": {
+          "name": "Download Wan2.2 Models",
+          "type": "string",
+          "description": "Set to 'true' to download Wan2.2 video generation models",
+          "default": "true"
+        }
+      },
+      {
+        "key": "HF_TOKEN",
+        "input": {
+          "name": "HuggingFace Token",
+          "type": "string",
+          "description": "Optional: HuggingFace token for gated models",
+          "default": ""
+        }
+      }
+    ]
+  }
+}

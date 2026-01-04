@@ -1,0 +1,58 @@
+{
+  "tests": [
+    {
+      "name": "flux_image_generation",
+      "input": {
+        "workflow_type": "flux-image",
+        "params": {
+          "prompt": "A serene wellness scene with morning sunlight",
+          "negative_prompt": "blurry, low quality",
+          "width": 512,
+          "height": 512,
+          "seed": 12345
+        }
+      },
+      "timeout": 120000
+    },
+    {
+      "name": "wan22_text_to_video",
+      "input": {
+        "workflow_type": "wan22-text-to-video",
+        "params": {
+          "prompt": "A person meditating peacefully",
+          "negative_prompt": "blurry, distorted",
+          "width": 480,
+          "height": 480,
+          "num_frames": 48,
+          "fps": 24,
+          "cfg_scale": 7.5,
+          "seed": 12345
+        }
+      },
+      "timeout": 600000
+    }
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA L40S",
+    "gpuCount": 1,
+    "env": [
+      {
+        "key": "DOWNLOAD_FLUX",
+        "value": "true"
+      },
+      {
+        "key": "DOWNLOAD_WAN",
+        "value": "true"
+      }
+    ],
+    "allowedCudaVersions": [
+      "12.7",
+      "12.6",
+      "12.5",
+      "12.4",
+      "12.3",
+      "12.2",
+      "12.1"
+    ]
+  }
+}
