@@ -3,7 +3,8 @@
 #
 # Based on: https://github.com/ValyrianTech/ComfyUI_with_Flux
 
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+# Use RunPod's pre-built PyTorch image for stability
+FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
@@ -11,9 +12,6 @@ ENV COMFY_HOME=/comfyui
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    python3.11 \
-    python3-pip \
-    python3.11-venv \
     git \
     wget \
     curl \
@@ -25,18 +23,12 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set Python 3.11 as default
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
-
 # Create ComfyUI directory
 WORKDIR ${COMFY_HOME}
 
-# Clone ComfyUI
+# Clone ComfyUI (base image already has PyTorch with CUDA)
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git . && \
     pip install --no-cache-dir -r requirements.txt
-
-# Install PyTorch with CUDA
-RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # Install ComfyUI Manager
 RUN cd custom_nodes && \
